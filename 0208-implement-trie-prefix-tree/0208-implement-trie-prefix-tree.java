@@ -1,59 +1,59 @@
 class Trie {
 
-    public class Node{
+    class Node{
         char data;
+        HashMap<Character,Node> map;
         boolean isTerminal;
-        HashMap<Character, Node> children;
-
-        Node(char data, boolean isTerminal){
+        
+        public Node(char data, boolean isTerminal){
             this.data = data;
             this.isTerminal = isTerminal;
-            this.children = new HashMap<>();
+            this.map = new HashMap<>();
         }
     }
     
     int numWords;
     Node root;
     
-    
     public Trie() {
-        this.root = new Node('\0', false);
+        this.root = new Node('\0',false);
         this.numWords = 0;
     }
     
     public void insert(String word) {
-        this.addWord(this.root, word);
+         this.addWord(this.root,word);
     }
     
-    public void addWord(Node parent, String word){
-        
+    public void addWord(Node root, String word){
+        //Base-Case
         if(word.length() == 0){
-            if(parent.isTerminal){
+            if(root.isTerminal){
                 
             } else {
-                parent.isTerminal = true;
+                root.isTerminal = true;
                 numWords++;
             }
-            
             return;
         }
         
+        //SW
         char cc = word.charAt(0);
         String ros = word.substring(1);
-        Node child = parent.children.get(cc);
+        Node child = root.map.get(cc);
         if(child == null){
             child = new Node(cc,false);
-            parent.children.put(cc,child);
+            root.map.put(cc,child);
         }
         
         this.addWord(child,ros);
     }
     
     public boolean search(String word) {
-        return this.search(this.root, word);
+        return this.search(this.root,word);
     }
     
     public boolean search(Node parent, String word){
+        //Base Case
         if(word.length() == 0){
             if(parent.isTerminal){
                 return true;
@@ -64,7 +64,7 @@ class Trie {
         
         char cc = word.charAt(0);
         String ros = word.substring(1);
-        Node child = parent.children.get(cc);
+        Node child = parent.map.get(cc);
         if(child == null){
             return false;
         }
@@ -76,14 +76,16 @@ class Trie {
         return this.startsWith(this.root,prefix);
     }
     
-    public boolean startsWith(Node parent, String prefix){
+    public boolean startsWith(Node parent, String prefix) {
+        //Base-Case
         if(prefix.length() == 0){
             return true;
         }
         
+        //SW
         char cc = prefix.charAt(0);
         String ros = prefix.substring(1);
-        Node child = parent.children.get(cc);
+        Node child = parent.map.get(cc);
         if(child == null){
             return false;
         }
