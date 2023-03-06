@@ -15,6 +15,7 @@
  */
 class Solution {
     public TreeNode invertTree(TreeNode root) {
+        //BaseCase
         if(root == null){
             return null;
         }
@@ -24,10 +25,10 @@ class Solution {
         root.left = root.right;
         root.right = temp;
         
+        //rec call
         invertTree(root.left);
         invertTree(root.right);
         
         return root;
     }
-    
 }
