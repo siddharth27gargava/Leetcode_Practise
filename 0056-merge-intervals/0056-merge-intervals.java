@@ -1,9 +1,8 @@
 class Solution {
     
-    public static class Pair implements Comparable<Pair>{
+    public class Pair implements Comparable<Pair>{
         int x;
         int y;
-        
         public Pair(int x, int y){
             this.x = x;
             this.y = y;
@@ -22,8 +21,8 @@ class Solution {
         
         for(int[] interval : intervals){
             if(ll.isEmpty() || ll.getLast()[1] < interval[0]){
-                ll.add(interval);
-            } else {
+                ll.addLast(interval);
+            } else{
                 ll.getLast()[1] = Math.max(ll.getLast()[1],interval[1]);
             }
         }
