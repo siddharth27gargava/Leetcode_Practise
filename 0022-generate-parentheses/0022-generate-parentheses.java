@@ -12,13 +12,14 @@ class Solution {
             return;
         }
         
+        if(close < open){
+            backtrack(output,current+")",open,close+1,max);
+        }
         
         if(open < max){
             backtrack(output,current+"(",open+1,close,max);
         }
         
-        if(close < open){
-            backtrack(output,current+")",open,close+1,max);
-        }
+
     }
 }
