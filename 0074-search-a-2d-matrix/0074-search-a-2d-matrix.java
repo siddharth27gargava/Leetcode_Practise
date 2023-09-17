@@ -1,21 +1,23 @@
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
-        int hi = (matrix.length)*(matrix[0].length) - 1;
-        int lo = 0;
-        int pivot_Idx = 0;
-        int pivot_element = 0;
+        int left = 0;
+        int right = (matrix.length) * (matrix[0].length) - 1;
+        
+        int pivot_idx = 0;
+        int pivot_el = 0;
         int n = matrix[0].length;
-        while(hi >= lo){
-            pivot_Idx = (hi+lo)/2;
-            pivot_element = matrix[pivot_Idx / n][pivot_Idx % n];
+        
+        while(left <= right){
+            pivot_idx = (left + right)/2;
+            pivot_el = matrix[pivot_idx/n][pivot_idx%n];
             
-            if(pivot_element == target){
+            if(pivot_el == target){
                 return true;
             } else {
-                if(target < pivot_element){
-                    hi = pivot_Idx - 1;
+                if(target < pivot_el){
+                    right = pivot_idx - 1;
                 } else {
-                    lo = pivot_Idx + 1; 
+                    left = pivot_idx + 1;
                 }
             }
         }
