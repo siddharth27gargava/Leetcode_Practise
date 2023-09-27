@@ -10,40 +10,55 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
+        //Get half
         ListNode slow = head;
         ListNode fast = head.next;
-        //getting the second halh
+        int counter = 0;
+        
         while(fast!=null && fast.next!=null){
             slow = slow.next;
             fast = fast.next.next;
+            counter++;
         }
         
+        // ListNode first = head;
+        // ListNode headfirst = head;
+        // //Find the first half
+        // while(counter > 0){
+        //     first = first.next;
+        //     counter--;
+        // }
+        
+        //Cut the halves
         ListNode second = slow.next;
-        //cutting the halves
         slow.next = null;
         
-        //reversing the second half
-        ListNode prev = null;
+        //Reverse the second half
+        ListNode midprev = null;
+        
         while(second!=null){
-            ListNode tmp = second.next;
+            ListNode midahead = second.next;
             
-            second.next = prev;
-            prev = second;
-            second = tmp;
+            second.next = midprev;
+            
+            midprev = second;
+            second = midahead;
         }
-        second = prev;
-        //merge the two lists
+        second = midprev;
+        
+        //Add the lls
         ListNode first = head;
         
         while(second!=null){
-            ListNode tmp1 = first.next;
-            ListNode tmp2 = second.next;
+            ListNode tm1 = first.next;
+            ListNode tm2 = second.next;
             
             first.next = second;
-            second.next = tmp1;
+            second.next = tm1;
             
-            first = tmp1;
-            second = tmp2;
+            first = tm1;
+            second = tm2;
         }
+        
     }
 }
