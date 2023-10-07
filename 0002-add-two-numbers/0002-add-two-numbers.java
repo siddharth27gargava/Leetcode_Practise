@@ -10,51 +10,53 @@
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        // ListNode dummy = new ListNode();
+        // dummy.next = head;
+        // ListNode second = dummy;
+        
         ListNode dummy = new ListNode();
         ListNode curr = dummy;
+        int carry = 0; 
+        int v1 = 0; 
+        int v2 = 0;
         
-        int carry = 0;
-        
-        while(l1!=null || l2!=null || carry!=0){
+        while(l1 != null || l2 != null || carry != 0){
             
-            int v1 = 0;
-            int v2 = 0;
-            
-            //Capture l1 val
+            //Get l1 val
             if(l1!=null){
                 v1 = l1.val;
-            } else {
+            } else{
                 v1 = 0;
             }
             
-            //Capture l2 val
+            //Get v2 val
             if(l2!=null){
                 v2 = l2.val;
-            } else {
+            } else{
                 v2 = 0;
             }
             
-            //Addition
-            int val = v1 + v2 + carry;
-            carry = val/10;
-            val = val%10;
+            //Add
+            int value = (v1+v2+carry);
+            carry = value/10;
+            value = value%10;
             
-            //Set it to my answer Node
-            curr.next = new ListNode(val);
+            curr.next = new ListNode(value);
             curr = curr.next;
             
-            //increment l1 and l2
             if(l1!=null){
                 l1 = l1.next;
-            } else {
+            } else{
                 l1 = null;
             }
             
             if(l2!=null){
                 l2 = l2.next;
-            } else {
+            } else{
                 l2 = null;
             }
+            
+            
         }
         
         return dummy.next;
