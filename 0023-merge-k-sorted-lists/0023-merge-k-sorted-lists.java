@@ -9,32 +9,35 @@
  * }
  */
 class Solution {
-    
     public ListNode mergeKLists(ListNode[] lists) {
-         PriorityQueue<ListNode> pq = new PriorityQueue<>((a,b) -> (a.val - b.val));
+        //Create a curr node
+        ListNode dummy = new ListNode();
+        ListNode curr = dummy;
         
+        //Priority q
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((a,b) -> (a.val - b.val));
+        
+        //Add in pq
         for(ListNode ln : lists){
-            if (ln!=null){
+            if(ln!=null){
                 pq.add(ln);
             }
         }
         
-        ListNode dummy = new ListNode();
-        ListNode prev = dummy;
-        
-        while (!pq.isEmpty()){
+        //Merge List
+        while(!pq.isEmpty()){
             ListNode node = pq.remove();
             
-            prev.next = node;
-            prev = prev.next;
+            curr.next = node;
+            curr = curr.next;
             node = node.next;
             
-            if (node!=null){
+            if(node!=null){
                 pq.add(node);
             }
         }
         
         return dummy.next;
+        
     }
-    
 }
