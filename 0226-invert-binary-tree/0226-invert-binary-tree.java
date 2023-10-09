@@ -15,20 +15,21 @@
  */
 class Solution {
     public TreeNode invertTree(TreeNode root) {
-        //BaseCase
+        //Base-work
         if(root == null){
             return null;
         }
         
-        //Swap
-        TreeNode temp = root.left;
-        root.left = root.right;
-        root.right = temp;
+        //Rec work
+        TreeNode leftT = invertTree(root.left);
+        TreeNode rightT = invertTree(root.right);
         
-        //rec call
-        invertTree(root.left);
-        invertTree(root.right);
+        //Swap
+        TreeNode tmp = root.left;
+        root.left = root.right;
+        root.right = tmp;
         
         return root;
+        
     }
 }
