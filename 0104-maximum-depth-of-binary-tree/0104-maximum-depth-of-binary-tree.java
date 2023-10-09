@@ -19,11 +19,13 @@ class Solution {
             return 0;
         }
         
+        //Rec work
         int left = maxDepth(root.left);
         int right = maxDepth(root.right);
         
-        int max = Math.max(left,right) + 1;
+        //Max Depth
+        int depth = Math.max(left,right) + 1;
         
-        return max;
+        return depth;
     }
 }
