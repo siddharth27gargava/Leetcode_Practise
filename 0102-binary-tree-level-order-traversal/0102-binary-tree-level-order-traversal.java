@@ -15,7 +15,7 @@
  */
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
-        
+        //BFS
         List<List<Integer>> ans = new ArrayList<>();
         
         if(root == null){
@@ -33,7 +33,6 @@ class Solution {
             for(int i = 0; i < qs; i++){
                 TreeNode qans = q.removeFirst();
                 ans.get(level).add(qans.val);
-                
                 if(qans.left!=null){
                     q.addLast(qans.left);
                 }
