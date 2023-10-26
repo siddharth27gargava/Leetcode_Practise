@@ -21,31 +21,30 @@ class Solution {
             return ans;
         }
         
-        Queue<TreeNode> q = new LinkedList();
+        Deque<TreeNode> q = new LinkedList<>();
         
-        q.add(root);
-        int level = 0;
+        q.addLast(root);
         
         while(!q.isEmpty()){
-            int level_len = q.size();
-            for(int i = 0; i < level_len; i++){
-                TreeNode curr = q.poll();
+            int qs = q.size();
+            for(int i = 0; i < qs; i++){
+                
+                TreeNode qans = q.removeFirst();
                 
                 if(i == 0){
-                    ans.add(curr.val);
+                    ans.add(qans.val);
                 }
                 
-                if(curr.right!=null){
-                    q.add(curr.right);
+                if(qans.right!=null){
+                    q.addLast(qans.right);
                 }
                 
-                if(curr.left!=null){
-                    q.add(curr.left);
+                if(qans.left!=null){
+                    q.addLast(qans.left);
                 }
             }
         }
         
         return ans;
-            
     }
 }
