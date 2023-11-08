@@ -14,31 +14,28 @@
  * }
  */
 class Solution {
-    ArrayList<Integer> ans;
     public int maxPathSum(TreeNode root) {
-        ans = new ArrayList<>();
-        ans.add(root.val);
+        ArrayList<Integer> res = new ArrayList<>();
+        res.add(root.val);
         
-        dfs(root);
+        dfs(root, res);
         
-        return ans.get(0);
+        return res.get(0);
     }
     
-    public int dfs(TreeNode root){
-        if(root == null){
+    public int dfs(TreeNode root, ArrayList<Integer> res){
+        if (root == null){
             return 0;
         }
         
-        int leftMax = dfs(root.left);
-        int rtMax = dfs(root.right);
+        int leftMax = dfs(root.left, res);
+        int rtMax = dfs(root.right, res);
         
-        leftMax = Math.max(leftMax,0);
-        rtMax = Math.max(rtMax,0);
+        leftMax = Math.max(0, leftMax);
+        rtMax = Math.max(0, rtMax);
         
-        //compute Max path sum with split
-        ans.set(0,Math.max(ans.get(0),root.val + leftMax + rtMax));
+        res.set(0,Math.max(res.get(0), leftMax + rtMax + root.val));
         
-        //Compute max without the split
-        return root.val + Math.max(leftMax,rtMax);
+        return root.val + Math.max(leftMax, rtMax);
     }
 }
