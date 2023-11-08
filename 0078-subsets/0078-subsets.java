@@ -1,22 +1,27 @@
 class Solution {
     public List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> res = new ArrayList();
+        List<List<Integer>> ans = new ArrayList<>();
+        
         Arrays.sort(nums);
-        generate(0,res, new ArrayList(), nums);
-        return res;
+        
+        generate(0,nums,ans,new ArrayList<Integer>());
+        
+        return ans;
     }
     
-    public void generate(int idx, List<List<Integer>> res, List<Integer> curr, int[] nums){
+    public void generate(int idx, int[] nums, List<List<Integer>> result, List<Integer> curr){
+        //Base Case when idx reaches till length of nums
         if(idx == nums.length){
-            res.add(new ArrayList(curr));
+            result.add(new ArrayList<>(curr));
             return;
         }
         
+        //Include the idx in subset
         curr.add(nums[idx]);
-        generate(idx+1,res,curr,nums);
-        curr.remove(curr.size() - 1);
+        generate(idx+1,nums,result,curr);
         
-        generate(idx + 1, res, curr, nums);
+        //Don't include
+        curr.remove(curr.size() - 1);
+        generate(idx + 1,nums,result,curr);
     }
-    
 }
