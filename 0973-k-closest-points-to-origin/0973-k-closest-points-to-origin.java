@@ -10,42 +10,35 @@ class Solution {
         }
     }
     
-    
     public int[][] kClosest(int[][] points, int k) {
         HashMap<Pair,Integer> map = new HashMap<>();
         
-        ArrayList<Pair> pl = new ArrayList<>();
+        ArrayList<Pair> pairlist = new ArrayList<>();
         
         for(int i = 0; i < points.length; i++){
-            pl.add(new Pair(points[i][0], points[i][1]));
+            pairlist.add(new Pair(points[i][0],points[i][1]));
         }
         
-        for(int i = 0; i < pl.size(); i++){
-            int distance = (int)(Math.pow(pl.get(i).x,2)) + (int)(Math.pow(pl.get(i).y,2));    
-            map.put(pl.get(i),distance);
+        for(int i = 0; i < pairlist.size(); i++){
+            map.put(pairlist.get(i), (int)(Math.pow(pairlist.get(i).x,2) + (Math.pow(pairlist.get(i).y,2))));
         }
         
         PriorityQueue<Pair> pq = new PriorityQueue<>((a,b) -> map.get(b) - map.get(a));
         
-        for(Pair tba:map.keySet()){
-            pq.add(tba);
+        for(int i = 0; i < pairlist.size(); i++){
+            pq.add(pairlist.get(i));
             
             if(pq.size() > k){
                 pq.poll();
             }
         }
         
-        int[][] ans = new int[pq.size()][2];
+        int[][] ans = new int[k][2];
         
-        ArrayList<Pair> res = new ArrayList<>();
-        
-        while(!pq.isEmpty()){
-            res.add(pq.poll());
-        }
-        
-        for(int i = 0; i < res.size(); i++){
-            ans[i][0] = res.get(i).x;
-            ans[i][1] = res.get(i).y;
+        for(int i = 0; i < ans.length; i++){
+            Pair enter = pq.poll();
+            ans[i][0] = enter.x;
+            ans[i][1] = enter.y;
         }
         
         return ans;
