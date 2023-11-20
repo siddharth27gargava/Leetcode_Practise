@@ -20,6 +20,7 @@ class Solution {
             return lowestCommonAncestor(root.left,p,q);
         } else {
             return root;
-        }
+        } 
+        
     }
 }
