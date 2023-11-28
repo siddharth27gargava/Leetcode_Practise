@@ -15,24 +15,24 @@
  */
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
-        //BFS
-        List<List<Integer>> ans = new ArrayList<>();
+        
+        List<List<Integer>> res = new ArrayList<>();
         
         if(root == null){
-            return ans;
+            return res;
         }
         
-        Deque<TreeNode> q = new LinkedList();
+        Deque<TreeNode> q = new LinkedList<>();
         
         q.addLast(root);
         int level = 0;
         
         while(!q.isEmpty()){
             int qs = q.size();
-            ans.add(new ArrayList());
+            res.add(new ArrayList<>());
             for(int i = 0; i < qs; i++){
                 TreeNode qans = q.removeFirst();
-                ans.get(level).add(qans.val);
+                res.get(level).add(qans.val);
                 if(qans.left!=null){
                     q.addLast(qans.left);
                 }
@@ -44,6 +44,6 @@ class Solution {
             level++;
         }
         
-        return ans;
+        return res;
     }
 }
