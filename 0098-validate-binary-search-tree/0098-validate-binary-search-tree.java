@@ -20,18 +20,17 @@ class Solution {
         }
         
         return helper(root,null,null);
-        
     }
     
-    public boolean helper(TreeNode node, Integer mmin, Integer mmax){
-        if(node == null){
+    public boolean helper(TreeNode root, Integer mmin, Integer mmax){
+        if(root == null){
             return true;
         }
         
-        if((mmin!=null && node.val <= mmin) ||(mmax!=null && node.val >= mmax)){
+        if((mmin!=null && root.val <= mmin) || (mmax!=null && root.val >= mmax)){
             return false;
         }
         
-        return helper(node.left,mmin,node.val) && helper(node.right,node.val,mmax);
+        return (helper(root.left,mmin,root.val) && helper(root.right,root.val,mmax));
     }
 }
