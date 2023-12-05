@@ -20,30 +20,36 @@ class Node {
 
 class Solution {
     public Node cloneGraph(Node node) {
+        //HashMap - clone
+        //Add values in hashmap
+        //Clone would try to neighbours while checking the hashmap
+        HashMap<Node, Node> OtNmap = new HashMap<>();
+        
         if(node == null){
-            return node;
+            return null;
         }
         
-        HashMap<Node,Node> visited = new HashMap();
+        return dfs(node, OtNmap);
+    }
+    
+    public Node dfs(Node node, HashMap<Node, Node> OtNmap){
         
-        LinkedList<Node> q = new LinkedList();
-        q.add(node);
-        
-        visited.put(node, new Node(node.val,new ArrayList()));
-        
-        //bfs
-        while(!q.isEmpty()){
-            Node n = q.remove();
-            for(Node neighbor : n.neighbors){
-                if(!visited.containsKey(neighbor)){
-                    visited.put(neighbor,new Node(neighbor.val, new ArrayList()));
-                    q.add(neighbor);
-                }
-                
-                visited.get(n).neighbors.add(visited.get(neighbor));
-            }
+        //Check if map already contains clone, return cloned value
+        if(OtNmap.containsKey(node)){
+            return OtNmap.get(node);
         }
         
-        return visited.get(node);
+        //If not in map, then create a new node and add it to map
+        Node copy = new Node(node.val);
+        OtNmap.put(node,copy);
+        
+        //Make copies of every neighbour of that node
+        for(Node nei : node.neighbors){
+            //populate the neighbors of the new copy with dfs which means creating news
+            //nodes and adding it in map and neighbor
+            copy.neighbors.add(dfs(nei, OtNmap)); 
+        }
+        
+        return copy;
     }
 }
