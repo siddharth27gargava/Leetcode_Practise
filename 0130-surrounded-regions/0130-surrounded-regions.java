@@ -1,45 +1,55 @@
 class Solution {
     public void solve(char[][] board) {
+        
         int rows = board.length;
         int cols = board[0].length;
+        boolean[][] visited = new boolean[rows][cols];
+        
+        //find 'O' in border region
+        for(int r = 0; r < rows; r++){
+            for(int c = 0; c < cols; c++){
+                if(board[r][c] == 'O' && (r == 0 || r == rows - 1 || c == 0 || c == cols-1)){
+                    dfs(board,r,c);
+                }
+            }
+        }
+        
+        //run dfs in 'O' of that region and convert other found 'O's to 'T's
+        //DONE in DFS
         
 
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < cols; j++){
-                if(board[i][j] == 'O' && (i == 0 || i == rows-1 || j == 0 || j == cols-1)){
-                    dfs(i,j,rows,cols,board);
+        //convert 'O's to 'X's
+        for(int r = 0; r < rows; r++){
+            for(int c = 0; c < cols; c++){
+                if(board[r][c] == 'O'){
+                    board[r][c] = 'X';
                 }
             }
         }
         
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < cols; j++){
-                if(board[i][j] == 'O'){
-                    board[i][j] = 'X';
+        //convert 'T's to 'O's
+        for(int r = 0; r < rows; r++){
+            for(int c = 0; c < cols; c++){
+                if(board[r][c] == 'T'){
+                    board[r][c] = 'O';
                 }
             }
         }
         
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < cols; j++){
-                if(board[i][j] == 'T'){
-                    board[i][j] = 'O';
-                }
-            }
-        }
         
     }
     
-    public void dfs(int i, int j, int rows, int cols, char[][] board){
-        if(i < 0 || i >= rows || j < 0 || j >= cols || board[i][j] != 'O'){
+    public void dfs(char[][] board, int r, int c){
+        //Base-Case
+        if(r < 0 || r >= board.length || c < 0 || c >= board[0].length || board[r][c] != 'O'){
             return;
         }
         
-        board[i][j] = 'T';
+        board[r][c] = 'T';
         
-        dfs(i+1,j,rows,cols,board);
-        dfs(i-1,j,rows,cols,board);
-        dfs(i,j+1,rows,cols,board);
-        dfs(i,j-1,rows,cols,board);
+        dfs(board,r+1,c);
+        dfs(board,r-1,c);
+        dfs(board,r,c+1);
+        dfs(board,r,c-1);
     }
 }
