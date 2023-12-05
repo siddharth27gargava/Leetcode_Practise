@@ -1,13 +1,4 @@
 class Solution {
-    public class Pair{
-        int r;
-        int c;
-        
-        public Pair(int r, int c){
-            this.r = r;
-            this.c = c;
-        }
-    }
     
     public List<List<Integer>> pacificAtlantic(int[][] heights) {
         //visited set required
