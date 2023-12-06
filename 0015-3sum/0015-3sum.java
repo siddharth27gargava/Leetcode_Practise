@@ -1,40 +1,36 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
-        
+        List<List<Integer>> res = new ArrayList<>();
         Arrays.sort(nums);
-        
-        List<List<Integer>> ans = new LinkedList();
-        
+        //Loop and binary search
         for(int i = 0; i < nums.length - 2; i++){
-            if(i==0||(i>0&&nums[i]!=nums[i-1])){
+            if(i == 0 || (i > 0 && nums[i]!=nums[i-1])){
                 int target = 0 - nums[i];
-            
-                int left = i + 1;
-                int right = nums.length - 1;
-            
-                while(left < right){
-                    if(nums[left] + nums[right] == target){
-                        ans.add(Arrays.asList(nums[i],nums[left],nums[right]));
-                    
-                        while(left < right && nums[left]==nums[left+1]){
-                            left++;
+                int lt = i+1;
+                int rt = nums.length - 1;
+                
+                while(lt < rt){
+                    if(nums[lt] + nums[rt] == target){
+                        res.add(Arrays.asList(nums[i],nums[lt],nums[rt]));
+                        
+                        while(lt < rt && nums[lt]==nums[lt+1]){
+                            lt++;
                         }
-                    
-                        while(left < right && nums[right]==nums[right-1]){
-                            right--;
+                        
+                        while(lt < rt && nums[rt]==nums[rt-1]){
+                            rt--;
                         }
-                        left++;
-                        right--;
-                    } else if(nums[left] + nums[right] < target){
-                        left++;
-                    } else if(nums[left] + nums[right] > target){
-                        right--;
+                        lt++;
+                        rt--;
+                    } else if(nums[lt] + nums[rt] < target){
+                        lt++;
+                    } else if(nums[lt] + nums[rt] > target){
+                        rt--;
                     }
                 }
             }
-
         }
         
-        return ans;
+        return res;
     }
 }
