@@ -1,48 +1,56 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        HashMap<Integer, List<Integer>> premap = new HashMap<>();
-        
-        for(int[] relation : prerequisites){
-            if(premap.containsKey(relation[0])){
-                premap.get(relation[0]).add(relation[1]);
+        HashMap<Integer, List<Integer>> preMap = new HashMap<>();
+        //[[1,0]]
+        //premap
+        // 1 --> {0}
+        // 0 --> {}
+        for(int[] pair : prerequisites){ //Creating Adj. map by adding each int[] against key
+            if(preMap.containsKey(pair[0])){//Why 0th, because 0 requires pair[1] position as prereq
+                preMap.get(pair[0]).add(pair[1]);
             } else {
-                List<Integer> newList = new ArrayList();
-                newList.add(relation[1]);
-                premap.put(relation[0],newList);
+                List<Integer> nL = new ArrayList<>();
+                nL.add(pair[1]);
+                preMap.put(pair[0],nL);
             }
         }
         
-        HashSet<Integer> visited = new HashSet<>();
+        //Check and add nodes touched
+        HashSet<Integer> visit = new HashSet<>();
         
+        //Manually iterate through every course and check since there can be unconnected graphs.
         for(int i = 0; i < numCourses; i++){
-            if(!(isCyclic(i,premap,visited))){
+            if(!dfs(i,preMap,visit)){
                 return false;
             }
         }
         
         return true;
-        
     }
     
-    public boolean isCyclic(Integer crs, HashMap<Integer, List<Integer>> premap, HashSet<Integer> visited){
-        if(visited.contains(crs)){
+    public boolean dfs(int crs,  HashMap<Integer, List<Integer>> preMap, HashSet<Integer> visit){
+        //check if crs is in set
+        if(visit.contains(crs)){
             return false;
         }
         
-        if(premap.get(crs) == null){
+        if(preMap.get(crs) == null){
             return true;
         }
         
-        visited.add(crs);
+        visit.add(crs);
         
-        for(int req : premap.get(crs)){
-            if(!isCyclic(req,premap,visited)){
+        for(int prereqListMembers : preMap.get(crs)){
+            if(!dfs(prereqListMembers,preMap,visit)){
                 return false;
             }
         }
         
-        visited.remove(crs);
-        premap.put(crs,new ArrayList<>());
+        //Remove this crs since we have already visited it
+        visit.remove(crs);
+        
+        //change the prereq list for course to empty so that next time we directly return true
+        preMap.put(crs, new ArrayList<>());
         
         return true;
     }
