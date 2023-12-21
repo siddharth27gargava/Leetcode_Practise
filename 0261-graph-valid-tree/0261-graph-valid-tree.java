@@ -1,40 +1,42 @@
 class Solution {
     public boolean validTree(int n, int[][] edges) {
-        
-        if(edges == null){
+       
+        //time and space complex O(n)
+        if(n == 0){
             return true;
         }
         
-        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        //Let's create adj. list for undirected graph
+        HashMap<Integer, List<Integer>> adMap = new HashMap<>();
         
         for(int i = 0; i < n; i++){
-            map.put(i,new ArrayList());
+            adMap.put(i, new ArrayList<>());
         }
         
-        for(int[] edge : edges){
-            map.get(edge[0]).add(edge[1]);
-            map.get(edge[1]).add(edge[0]);
+        for(int[] edgeMember: edges){
+            adMap.get(edgeMember[0]).add(edgeMember[1]);
+            adMap.get(edgeMember[1]).add(edgeMember[0]);
         }
         
         HashSet<Integer> visit = new HashSet<>();
         
-        return dfs(0,-1,map,visit) && visit.size() == n;
+        //number of nodes matches with the visited values and check for loop
         
+        return dfs(0,-1,adMap,visit) && (n == visit.size());
     }
     
-    public boolean dfs(int i, int prev, HashMap<Integer,List<Integer>> map,HashSet<Integer> visit){
+    public boolean dfs(int i, int prev, HashMap<Integer, List<Integer>> adMap, HashSet<Integer> visit){
         if(visit.contains(i)){
             return false;
         }
         
         visit.add(i);
-        
-        for(int j : map.get(i)){
-            if(prev == j){
+        for(int j : adMap.get(i)){
+            if(j == prev){
                 continue;
             }
             
-            if(dfs(j,i,map,visit) == false){
+            if(!dfs(j,i,adMap,visit)){
                 return false;
             }
         }
