@@ -3,40 +3,21 @@ class Solution {
         int count = 0;
         
         for(int i = 0; i < s.length(); i++){
-            int left = i;
-            int right = i;
-            while(left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)){
-                count++;
-                left--;
-                right++;
-            }
-            
-            left = i;
-            right = i+1;
-            
-             while(left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)){
-                count++;
-                left--;
-                right++;
+            for(int j = i+1; j <= s.length(); j++){
+                if(isPalindrome(s.substring(i,j))){
+                    count++;
+                }
             }
         }
         
         return count;
     }
     
-    
-    public boolean isPalindrome(String s, int i, int j){
-        if(s.length() == 0){
-            return false;
-        }
-        
-        String ls = s.toLowerCase();
-        
-        int left = i;
-        int right = j;
-        
+    public boolean isPalindrome(String s){
+        int left = 0;
+        int right = s.length() - 1;
         while(left < right){
-            if(ls.charAt(left) != ls.charAt(right)){
+            if(s.charAt(left) != s.charAt(right)){
                 return false;
             }
             
