@@ -1,34 +1,31 @@
 class Solution {
     public int maxSubArray(int[] nums) {
+        int oSum = Integer.MIN_VALUE;
+        int cSum = 0;
         
         if(allNegative(nums)){
             return maxNum(nums);
         }
         
-        int csum = 0;
-        int obsum = Integer.MIN_VALUE;
-        
         for(int i = 0; i < nums.length; i++){
-            csum += nums[i];
-            
-            if(csum < 0){
-                csum = 0;
+            cSum += nums[i];
+            if(cSum < 0){
+                cSum = 0;
             }
             
-            if(obsum < csum){
-                obsum = csum;
+            if(oSum < cSum){
+                oSum = cSum;
             }
         }
         
-        return obsum;
+        return oSum;
     }
     
-    public int maxNum(int[] arr){
+    public int maxNum(int[] array){
         int max = Integer.MIN_VALUE;
-        
-        for(int i = 0; i < arr.length; i++){
-            if(arr[i] > max){
-                max = arr[i];
+        for(int i = 0; i < array.length; i++){
+            if(max < array[i]){
+                max = array[i];
             }
         }
         
@@ -36,6 +33,7 @@ class Solution {
     }
     
     public boolean allNegative(int[] arr){
+        
         for(int i = 0; i < arr.length; i++){
             if(arr[i] > 0){
                 return false;
