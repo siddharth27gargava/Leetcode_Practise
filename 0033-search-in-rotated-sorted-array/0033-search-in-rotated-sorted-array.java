@@ -1,41 +1,39 @@
 class Solution {
     public int search(int[] nums, int target) {
         
-        //find pivot
-        int left = 0;
-        int right = nums.length - 1;
-        
-        while(left < right){
-            int mp = (left+right)/2;
-            
-            if(nums[mp] > nums[right]){
-                left = mp + 1;
+        //Find min in rotated array
+        int lo = 0;
+        int hi = nums.length - 1;
+        while(lo < hi){
+            int mid = (hi + lo)/2;
+            if(nums[mid] > nums[hi]){
+                lo = mid + 1;
             } else {
-                right = mp;
+                hi = mid;
             }
         }
         
+        //Find which array  
+        int start = lo;
+        lo = 0;
+        hi = nums.length - 1;
         
-        //find the array to search in
-        int start = left;
-        left = 0;
-        right = nums.length - 1;
-        if(nums[start] <= target && nums[right] >= target){
-            left = start;
-        } else {
-            right = start;
+        //Reason why this is wrong is because you're checking between first and smallest. It should be smallest and last
+        if (nums[start] <= target && nums[hi] >= target) {
+            lo = start;
+        } else{
+            hi = start;
         }
-        
-        //binary search
-        while(left <= right){
-            int mp = (left + right)/2;
-            
-            if(nums[mp] > target){
-                right = mp-1;
-            } else if(nums[mp] < target){
-                left = mp+1;
+
+        //Binary search
+        while (lo <= hi) {
+            int mid = (hi + lo)/2;
+            if (nums[mid] == target) {
+                return mid;
+            } else if(nums[mid] > target){
+                hi = mid - 1;
             } else {
-                return mp;
+                lo = mid + 1;
             }
         }
         
