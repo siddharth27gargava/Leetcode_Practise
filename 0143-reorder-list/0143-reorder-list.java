@@ -10,55 +10,53 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
-        //Get half
-        ListNode slow = head;
+        //1) Reach till half
+
+        //Why does fast start from first.next
         ListNode fast = head.next;
-        int counter = 0;
-        
-        while(fast!=null && fast.next!=null){
-            slow = slow.next;
+        ListNode slow = head;
+
+        // it is && and not || because we have to ensure both cases are true
+        while (fast != null && fast.next != null ) {
             fast = fast.next.next;
-            counter++;
+            slow = slow.next;
         }
-        
-        // ListNode first = head;
-        // ListNode headfirst = head;
-        // //Find the first half
-        // while(counter > 0){
-        //     first = first.next;
-        //     counter--;
-        // }
-        
-        //Cut the halves
-        ListNode second = slow.next;
+
+        //2) Cutoff the half
+        ListNode shead = slow.next;
         slow.next = null;
-        
-        //Reverse the second half
-        ListNode midprev = null;
-        
-        while(second!=null){
-            ListNode midahead = second.next;
-            
-            second.next = midprev;
-            
-            midprev = second;
-            second = midahead;
+
+        //3) reverse the second half
+        ListNode curr = shead;
+        ListNode prev = null;
+
+        while (curr != null) {
+            ListNode ahead = curr.next;
+
+            curr.next = prev;
+
+            prev = curr;
+            curr = ahead;
         }
-        second = midprev;
-        
-        //Add the lls
-        ListNode first = head;
-        
-        while(second!=null){
-            ListNode tm1 = first.next;
-            ListNode tm2 = second.next;
-            
-            first.next = second;
-            second.next = tm1;
-            
-            first = tm1;
-            second = tm2;
+
+        shead = prev;
+
+        //4) Join alternatively
+        ListNode fhead = head;
+
+        //ListNode ans = null;
+
+        while (shead != null) {
+            ListNode tm1 = fhead.next;
+            ListNode tm2 = shead.next;
+
+            fhead.next = shead;
+            shead.next = tm1;
+
+            fhead = tm1;
+            shead = tm2;
         }
+
         
     }
 }
