@@ -1,31 +1,40 @@
 class Solution {
+
+    boolean[][] visited;
+
     public int numIslands(char[][] grid) {
-        int row = grid.length;
-        int col = grid[0].length;
+        //standard step
+        int rows = grid.length;
+        int cols = grid[0].length;
         int count = 0;
-        
-        for(int i = 0; i < row; i++){
-            for(int j = 0; j < col; j++){
-                if(grid[i][j] == '1'){
+
+        visited = new boolean[grid.length][grid[0].length];
+
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                //if not visited and matrix value is 1, we can start search for an island and increment count
+                if (grid[r][c] == '1' && !visited[r][c]) {
                     count++;
-                    dfs(grid,i,j,row,col);
+                    //traverse completely all the connected ones since we want to increment only once for all banded ones
+                    dfs(r, c, rows, cols, grid, visited);
                 }
             }
         }
-        
+
         return count;
     }
-    
-    public void dfs(char[][] grid, int i, int j, int row, int col){
-        if(i >= row || j >= col || i < 0 || j < 0 || grid[i][j] == '0'){
+
+    public void dfs(int r, int c, int rows, int cols, char[][] grid, boolean[][] visited){
+        if (r < 0 || r > rows-1 || c < 0 || c > cols-1 || grid[r][c] == '0' || visited[r][c]) {
             return;
         }
-        
-        grid[i][j] = '0';
-        
-        dfs(grid,i+1,j,row,col);
-        dfs(grid,i-1,j,row,col);
-        dfs(grid,i,j+1,row,col);
-        dfs(grid,i,j-1,row,col);
+
+        visited[r][c] = true;
+
+        dfs(r+1, c, rows, cols, grid, visited);
+        dfs(r-1, c, rows, cols, grid, visited);
+        dfs(r, c+1, rows, cols, grid, visited);
+        dfs(r, c-1, rows, cols, grid, visited);
+
     }
 }
