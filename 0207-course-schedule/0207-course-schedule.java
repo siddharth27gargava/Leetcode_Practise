@@ -1,57 +1,52 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        HashMap<Integer, List<Integer>> preMap = new HashMap<>();
-        //[[1,0]]
-        //premap
-        // 1 --> {0}
-        // 0 --> {}
-        for(int[] pair : prerequisites){ //Creating Adj. map by adding each int[] against key
-            if(preMap.containsKey(pair[0])){//Why 0th, because 0 requires pair[1] position as prereq
-                preMap.get(pair[0]).add(pair[1]);
-            } else {
-                List<Integer> nL = new ArrayList<>();
-                nL.add(pair[1]);
-                preMap.put(pair[0],nL);
+        //creating directed adj. list
+        //pre-requisite map
+        // 1 -> {0}
+        // 0 -> {}
+        HashMap<Integer, List<Integer>> premap = new HashMap<>();
+        for (int[] prereq_member : prerequisites) {
+            if(premap.containsKey(prereq_member[0])){
+                premap.get(prereq_member[0]).add(prereq_member[1]);
+            } else{
+                ArrayList<Integer> nal = new ArrayList<>();
+                nal.add(prereq_member[1]);
+                premap.put(prereq_member[0], nal);
             }
         }
-        
-        //Check and add nodes touched
+
         HashSet<Integer> visit = new HashSet<>();
-        
-        //Manually iterate through every course and check since there can be unconnected graphs.
-        for(int i = 0; i < numCourses; i++){
-            if(!dfs(i,preMap,visit)){
+
+        for (int i = 0; i < numCourses; i++) {
+            if (!dfs(premap,i,visit)) {
                 return false;
             }
         }
-        
+
         return true;
     }
-    
-    public boolean dfs(int crs,  HashMap<Integer, List<Integer>> preMap, HashSet<Integer> visit){
-        //check if crs is in set
-        if(visit.contains(crs)){
+
+    public boolean dfs(HashMap<Integer, List<Integer>> premap, int crs, HashSet<Integer> visit){
+        if (visit.contains(crs)) {
             return false;
         }
-        
-        if(preMap.get(crs) == null){
+
+        if (premap.get(crs) == null) {
             return true;
         }
-        
+
         visit.add(crs);
-        
-        for(int prereqListMembers : preMap.get(crs)){
-            if(!dfs(prereqListMembers,preMap,visit)){
+
+        for (int prereqmember : premap.get(crs)) {
+            if (!dfs(premap,prereqmember,visit)) {
                 return false;
             }
         }
-        
-        //Remove this crs since we have already visited it
+
         visit.remove(crs);
-        
-        //change the prereq list for course to empty so that next time we directly return true
-        preMap.put(crs, new ArrayList<>());
-        
+
+        premap.put(crs, new ArrayList<>());
+
         return true;
     }
 }
