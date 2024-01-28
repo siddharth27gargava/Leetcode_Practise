@@ -1,24 +1,28 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        //creating directed adj. list
-        //pre-requisite map
-        // 1 -> {0}
-        // 0 -> {}
+        //aim is to check gor cyclic in a directed graph
+        //lets first build directed adjacency list
         HashMap<Integer, List<Integer>> premap = new HashMap<>();
-        for (int[] prereq_member : prerequisites) {
-            if(premap.containsKey(prereq_member[0])){
-                premap.get(prereq_member[0]).add(prereq_member[1]);
+
+        //1 -> {0}
+        //0 -> {}
+        for (int[] pre_mem : prerequisites) {
+            //check if map already has members 0th element
+            if (premap.containsKey(pre_mem[0])) {
+                premap.get(pre_mem[0]).add(pre_mem[1]);
             } else{
                 ArrayList<Integer> nal = new ArrayList<>();
-                nal.add(prereq_member[1]);
-                premap.put(prereq_member[0], nal);
+                nal.add(pre_mem[1]);
+                premap.put(pre_mem[0], nal);
             }
         }
 
+        //create a hashset of visited to keep count of cyclicity
         HashSet<Integer> visit = new HashSet<>();
 
+        //check for all numcourses including the unconnected ones
         for (int i = 0; i < numCourses; i++) {
-            if (!dfs(premap,i,visit)) {
+            if(!dfs(i,premap,visit)){
                 return false;
             }
         }
@@ -26,27 +30,35 @@ class Solution {
         return true;
     }
 
-    public boolean dfs(HashMap<Integer, List<Integer>> premap, int crs, HashSet<Integer> visit){
-        if (visit.contains(crs)) {
+    public boolean dfs(int crs, HashMap<Integer, List<Integer>> premap, HashSet<Integer> visit){
+
+        //check if it is in set - then cyclic graph
+        if(visit.contains(crs)){
             return false;
         }
 
-        if (premap.get(crs) == null) {
+        //check if crs doesn't has a null arraylist associated - meaning no dependancy
+        if(premap.get(crs) == null){
             return true;
         }
 
+        //add the crs in set
         visit.add(crs);
 
-        for (int prereqmember : premap.get(crs)) {
-            if (!dfs(premap,prereqmember,visit)) {
+        //check for all neighbors of crs
+        for (Integer crs_nbr : premap.get(crs)) {
+            if (!dfs(crs_nbr,premap,visit)) {
                 return false;
             }
         }
 
+        //remove the crs from set since we have traversed it
         visit.remove(crs);
 
+        //save time put an empty list against it
         premap.put(crs, new ArrayList<>());
 
         return true;
+
     }
 }
