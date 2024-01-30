@@ -15,36 +15,34 @@
  */
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
-        List<Integer> ans = new ArrayList<>();
-        
-        if(root == null){
-            return ans;
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
         }
-        
+
         Deque<TreeNode> q = new LinkedList<>();
-        
+
         q.addLast(root);
-        
-        while(!q.isEmpty()){
-            int qs = q.size();
-            for(int i = 0; i < qs; i++){
-                
-                TreeNode qans = q.removeFirst();
-                
-                if(i == 0){
-                    ans.add(qans.val);
+
+        while (!q.isEmpty()) {
+            int qs = q.size(); //doing so that we process only those elements present at this time
+            for (int i = 0; i < qs; i++) {
+                TreeNode rmv = q.removeFirst();
+
+                if (i == 0) {
+                    res.add(rmv.val);
                 }
-                
-                if(qans.right!=null){
-                    q.addLast(qans.right);
+
+                if(rmv.right != null){
+                    q.addLast(rmv.right);
                 }
-                
-                if(qans.left!=null){
-                    q.addLast(qans.left);
+
+                if (rmv.left != null) {
+                    q.addLast(rmv.left);
                 }
             }
         }
-        
-        return ans;
+
+        return res;
     }
 }
