@@ -1,3 +1,7 @@
+
+
+import com.sun.source.tree.Tree;
+
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -15,23 +19,23 @@
  */
 class Solution {
     public boolean isBalanced(TreeNode root) {
-        if(root == null){
+        if (root == null) {
             return true;
         }
-        
-        return (Math.abs(height(root.left) - height(root.right)) < 2) && isBalanced(root.left) && isBalanced(root.right); 
+
+        return (Math.abs(height(root.left) - height(root.right))) < 2 && isBalanced(root.left) && isBalanced(root.right);
     }
-    
+
     public int height(TreeNode root){
         if(root == null){
             return -1;
         }
-        
-        int lht = height(root.left);
-        int rht = height(root.right);
-        
-        int ht = Math.max(lht,rht) + 1;
-        
+
+        int left = height(root.left);
+        int right = height(root.right);
+
+        int ht = Math.max(left, right) + 1;
+
         return ht;
     }
 }
