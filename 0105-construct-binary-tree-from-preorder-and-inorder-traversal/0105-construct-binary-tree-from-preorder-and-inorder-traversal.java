@@ -14,39 +14,42 @@
  * }
  */
 class Solution {
-    
-    
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        if(preorder == null || inorder == null){
+        if (preorder == null || inorder == null) {
             return null;
         }
-        
-        return recbuild(0, preorder.length - 1, preorder, 0, inorder.length - 1, inorder);
+
+        return helper(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1);
     }
-    
-    public TreeNode recbuild(int preStart, int preEnd, int[] preorder, int inStart, int inEnd, int[] inorder){
-        
-        if(preStart > preEnd || inStart > inEnd){
+
+    public TreeNode helper(int[] preorder, int prestart, int preend, int[] inorder, int instart, int inend){
+        if (prestart > preend || instart > inend) {
             return null;
         }
-        
-        TreeNode root = new TreeNode(preorder[preStart]);
-        int mid = findPosition(inorder, preorder[preStart]);
-        int numsleft_pre = mid - inStart; //used for creating preorder sub-arrays
-        
-        root.left = recbuild(preStart + 1, preStart + numsleft_pre, preorder, inStart, mid - 1, inorder);
-        root.right = recbuild(preStart + numsleft_pre + 1, preEnd, preorder, mid + 1, inEnd, inorder);
-        
+
+        //create a root node
+        TreeNode root = new TreeNode(preorder[prestart]);
+
+        //find the root node index in inorder
+        int rootIdxinInorder = calcIdx(inorder, root.val);
+        //find the total distance of left tree
+        int lftSTsize = rootIdxinInorder - instart;
+
+        //recursive function to build left and right
+        root.left = helper(preorder, prestart+1, prestart + lftSTsize, inorder, instart, rootIdxinInorder - 1);
+        root.right = helper(preorder, prestart + lftSTsize + 1, preend, inorder, rootIdxinInorder + 1, inend);
+
         return root;
     }
-    
-    //find index value of num
-    public int findPosition(int[] arr, int num){
-        for(int i = 0; i < arr.length; i++){
-            if (arr[i] == num){
+
+    public int calcIdx(int[] array, int item){
+
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == item) {
                 return i;
             }
         }
+
         return -1;
     }
 }
