@@ -1,38 +1,36 @@
 class Solution {
-    
-    public int[][] dp;
+
+    int[][] dp;
 
     public int lengthOfLIS(int[] nums) {
-        dp = new int[nums.length + 1][nums.length + 1];
-        for (int[] row : dp) {
-            Arrays.fill(row, -1);
+        
+        dp = new int[nums.length+1][nums.length+1];
+
+        for (int i = 0; i < nums.length; i++) {
+            Arrays.fill(dp[i], -1);
         }
-        return rec(nums, 0, -1);
+
+        return recursion(nums, 0, -1);   
     }
-    
-    private int rec(int[] nums, int curr, int prevIdx) {
+
+    public int recursion(int[] nums, int curr, int prev){
         if (curr == nums.length) {
             return 0;
         }
 
-        if (prevIdx != -1 && dp[prevIdx][curr] != -1) {
-            return dp[prevIdx][curr];
+        int prevCheck = prev + 1;
+        if (dp[curr][prevCheck] != -1) {
+            return dp[curr][prevCheck];
         }
 
-        // Exclude current element
-        int exc = rec(nums, curr + 1, prevIdx);
-
-        // Include current element
-        int inc = 0;
-        if (prevIdx == -1 || nums[curr] > nums[prevIdx]) {
-            inc = 1 + rec(nums, curr + 1, curr);
+        int excl = recursion(nums, curr+1, prev);
+        int incl =0;
+        if (prev == -1 || nums[curr] > nums[prev]) {
+            incl = 1 + recursion(nums, curr+1, curr);
         }
 
-        int ans = Math.max(inc, exc);
-
-        if (prevIdx != -1) {
-            dp[prevIdx][curr] = ans;
-        }
+        int ans = Math.max(excl, incl);
+        dp[curr][prevCheck] = ans;
 
         return ans;
     }
