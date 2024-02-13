@@ -1,10 +1,10 @@
 class Solution {
 
-    HashMap<String, Boolean> dp;
+    HashMap<String, Boolean> dp = new HashMap<>();
 
     public boolean wordBreak(String s, List<String> wordDict) {
         
-        dp = new HashMap<>();
+         
         if(wordDict.contains(s)){
             return true;
         }
