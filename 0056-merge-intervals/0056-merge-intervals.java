@@ -1,32 +1,33 @@
 class Solution {
-    
-    public class Pair implements Comparable<Pair>{
-        int x;
-        int y;
-        public Pair(int x, int y){
-            this.x = x;
-            this.y = y;
-        }
-        
-        @Override
-        public int compareTo(Pair o2){
-            return this.x - o2.x;
-        }
-    }
-    
     public int[][] merge(int[][] intervals) {
-        Arrays.sort(intervals,(a,b) -> Integer.compare(a[0],b[0]));
-        
-        LinkedList<int[]> ll = new LinkedList<>();
-        
-        for(int[] interval : intervals){
-            if(ll.isEmpty() || ll.getLast()[1] < interval[0]){
-                ll.addLast(interval);
+        //concept is that if your start of next element is less than end of prev element
+        // then the end of prev element becomes max of end of prev and next element 
+
+        Arrays.sort(intervals, (a,b) -> Integer.compare(a[0], b[0]));
+
+        List<int[]> ans = new ArrayList<>();
+
+        ans.add(intervals[0]);
+
+        for (int i = 1; i < intervals.length; i++) {
+            
+            int[] start = intervals[i];
+            //action here
+            int[] prev = ans.get(ans.size() - 1);
+            if (prev[1] >= start[0]) {
+                prev[1] = Math.max(start[1], prev[1]);
             } else{
-                ll.getLast()[1] = Math.max(ll.getLast()[1],interval[1]);
+                ans.add(start);
             }
         }
-        
-        return ll.toArray(new int[ll.size()][2]);
+
+        int[][] res = new int[ans.size()][2];
+
+        for (int i = 0; i < res.length; i++) {
+            res[i][0] = ans.get(i)[0];
+            res[i][1] = ans.get(i)[1];
+        }
+
+        return res;   
     }
 }
