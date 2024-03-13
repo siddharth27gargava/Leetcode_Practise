@@ -15,27 +15,34 @@
  */
 class Solution {
     public int goodNodes(TreeNode root) {
-        return dfs(root, root.val);
-    }
-    
-    public int dfs(TreeNode node, int maxval){
-        if(node == null){
+        if (root == null) {
             return 0;
         }
-        
-        int res = 0;
-        
-        if(node.val >= maxval){
-            res = 1;
-        } else {
-            res = 0;
+
+        return dfs(root, root.val);
+    }
+
+    //keeping track of current node and maxval
+    public int dfs(TreeNode root, int maxVal){
+        int result = 0;
+        //purpose of resut is different - just check if it should be 1 or 0
+
+        if (root == null) {
+            return 0;
         }
-        
-        maxval = Math.max(node.val, maxval);
-        
-        res += dfs(node.left,maxval);
-        res += dfs(node.right,maxval);
-        
-        return res;
+
+        if (root.val >= maxVal) {
+            result = 1;
+        } else{
+            result = 0;
+        }
+
+        maxVal = Math.max(root.val, maxVal);
+
+        //Rec work
+        result += dfs(root.left, maxVal);
+        result += dfs(root.right, maxVal);
+
+        return result;
     }
 }
