@@ -3,21 +3,22 @@ class Solution {
         if (k == 0) {
             return false;
         }
-        
-        int left = 0;
-        HashSet<Integer> set = new HashSet<>();
 
-        for (int right = 0; right < nums.length; right++) {
-            
-            if (set.size() > k) {
-                set.remove(nums[left]);
+        int left = 0;
+        HashSet<Integer> window = new HashSet<>();
+
+        for(int right = 0; right < nums.length; right++){
+
+            if (window.size() > k) {
+                window.remove(nums[left]);
                 left++;
             }
 
-            if (set.contains(nums[right])) {
+            if (window.contains(nums[right])) {
                 return true;
-            }
-            set.add(nums[right]);
+            } 
+
+            window.add(nums[right]);
         }
 
         return false;
