@@ -15,21 +15,17 @@
  */
 class Solution {
     public TreeNode invertTree(TreeNode root) {
-        //Base-work
-        if(root == null){
+        if (root == null) {
             return null;
         }
-        
-        //Rec work
+
         TreeNode leftT = invertTree(root.left);
         TreeNode rightT = invertTree(root.right);
-        
-        //Swap
-        TreeNode tmp = root.left;
+
+        TreeNode temp = root.left;
         root.left = root.right;
-        root.right = tmp;
-        
+        root.right = temp;
+
         return root;
-        
     }
 }
