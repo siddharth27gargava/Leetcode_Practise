@@ -15,22 +15,26 @@
  */
 class Solution {
     public boolean isSymmetric(TreeNode root) {
-        if(root == null){
+        if (root == null) {
             return true;
         }
-        
-        return isSame(root,root);
+
+        return isSameTree(root, root);
     }
-    
-    public boolean isSame(TreeNode t1, TreeNode t2){
-        if(t1==null && t2==null){
+
+    public boolean isSameTree(TreeNode p, TreeNode q){
+        if (p == null && q == null) {
             return true;
         }
-        
-        if(t1==null || t2==null){
+
+        if (p == null || q == null) {
             return false;
         }
-        
-        return (t1.val == t2.val) && isSame(t1.right,t2.left) && isSame(t1.left,t2.right);
+
+        if(p.val == q.val){
+            return isSameTree(p.left, q.right) && isSameTree(p.right, q.left);
+        }
+
+        return false;
     }
 }
