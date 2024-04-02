@@ -17,16 +17,17 @@ class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> ans = new ArrayList<>();
 
-        Deque<TreeNode> q = new LinkedList<>(); 
-        
-        if(root == null){
+        if (root == null) {
             return ans;
         }
 
-        q.addLast(root);
-        int level = 0;
+        Deque<TreeNode> q = new LinkedList<>();
 
-        while (!q.isEmpty()) {
+        int level = 0;
+        q.addLast(root);
+
+        //start bfs
+        while(!q.isEmpty()){
             int qs = q.size();
             ans.add(new ArrayList<>());
             for (int i = 0; i < qs; i++) {
@@ -34,11 +35,11 @@ class Solution {
 
                 ans.get(level).add(rmv.val);
 
-                if (rmv.left != null) {
+                if(rmv.left!=null){
                     q.addLast(rmv.left);
                 }
 
-                if (rmv.right != null) {
+                if(rmv.right!=null) {
                     q.addLast(rmv.right);
                 }
             }
