@@ -15,26 +15,32 @@
  */
 class Solution {
     public int kthSmallest(TreeNode root, int k) {
-        if(root == null){
-            return 0;
-        }
-        
-        
-        ArrayList<Integer> ans = inOrder(root, new ArrayList<>());
-        int kthsmall = ans.get(k - 1);
-        
-        return kthsmall;
+        List<Integer> res = inOrder(root);
+
+        int ans = res.get(k-1);
+
+        return ans;
     }
-    
-    public ArrayList<Integer> inOrder(TreeNode root, ArrayList<Integer> result){
+
+    public List<Integer> inOrder(TreeNode root){
+        List<Integer> ans = new ArrayList<>();
+        
         if(root == null){
-            return result;
+            return ans;
         }
-        
-        inOrder(root.left,result);
-        result.add(root.val);
-        inOrder(root.right,result);
-        
-        return result;
+
+        helper(root,ans);
+
+        return ans;
+    }
+
+    public void helper(TreeNode root, List<Integer> res){
+        if(root == null){
+            return;
+        }
+
+        helper(root.left,res);
+        res.add(root.val);
+        helper(root.right,res);
     }
 }
