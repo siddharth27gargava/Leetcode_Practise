@@ -1,13 +1,14 @@
 class Solution {
     public boolean containsNearbyDuplicate(int[] nums, int k) {
-        if (k == 0) {
-            return false;
-        }
-
         int left = 0;
+        //check if window size is greater than k, then remove
+        //check if any common element return true
+        //keep expanding right in end
         HashSet<Integer> window = new HashSet<>();
 
-        for(int right = 0; right < nums.length; right++){
+        int right = 0;
+
+        while(right < nums.length){
 
             if (window.size() > k) {
                 window.remove(nums[left]);
@@ -16,9 +17,11 @@ class Solution {
 
             if (window.contains(nums[right])) {
                 return true;
-            } 
+            }
 
+            
             window.add(nums[right]);
+            right++;
         }
 
         return false;
