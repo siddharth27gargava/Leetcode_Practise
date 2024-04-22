@@ -1,6 +1,7 @@
 class Solution {
     public List<String> findRepeatedDnaSequences(String s) {
         //store all the 10 letter subseq in set
+        //O(n) time and space
 
         HashMap<String, Integer> map = new HashMap<>();
         List<String> res = new ArrayList<>();
