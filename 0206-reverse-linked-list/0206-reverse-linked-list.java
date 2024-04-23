@@ -13,10 +13,7 @@ class Solution {
         ListNode prev = null;
         ListNode curr = head;
 
-        //1 -> 2 -> 3 -> 4
-        //|c   |a
-
-        while (curr!=null) {
+        while(curr != null){
             ListNode ahead = curr.next;
 
             curr.next = prev;
