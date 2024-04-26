@@ -9,8 +9,8 @@ class Solution {
         return res;
     }
 
-    //O(n) - time
-    //O(n) - space
+    //O(2^n) - time
+    //O(2^n) - space
 
     public void recursion(List<List<Integer>> res, List<Integer> curr, int idx, int[] nums){
         if (idx == nums.length) {
