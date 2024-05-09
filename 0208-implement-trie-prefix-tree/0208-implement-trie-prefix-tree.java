@@ -1,19 +1,19 @@
 class Trie {
-
+    
     class Node{
         char data;
-        HashMap<Character,Node> map;
         boolean isTerminal;
+        HashMap<Character, Node> children;
         
-        public Node(char data, boolean isTerminal){
+        Node(char data, boolean isTerminal){
             this.data = data;
             this.isTerminal = isTerminal;
-            this.map = new HashMap<>();
+            this.children = new HashMap<>();
         }
     }
     
-    int numWords;
     Node root;
+    int numWords;
     
     public Trie() {
         this.root = new Node('\0',false);
@@ -21,39 +21,39 @@ class Trie {
     }
     
     public void insert(String word) {
-         this.addWord(this.root,word);
+        this.insert(this.root,word);
     }
     
-    public void addWord(Node root, String word){
-        //Base-Case
+    private void insert(Node parent, String word){
+        
+        //BCase
         if(word.length() == 0){
-            if(root.isTerminal){
-                
-            } else {
-                root.isTerminal = true;
-                numWords++;
+            if(!parent.isTerminal){
+                parent.isTerminal = true;
+                this.numWords++;
             }
             return;
         }
         
-        //SW
+        //SWork
         char cc = word.charAt(0);
         String ros = word.substring(1);
-        Node child = root.map.get(cc);
+        Node child = parent.children.get(cc);
         if(child == null){
             child = new Node(cc,false);
-            root.map.put(cc,child);
+            parent.children.put(cc,child);
         }
         
-        this.addWord(child,ros);
+        //RWork
+        this.insert(child,ros);
     }
     
     public boolean search(String word) {
         return this.search(this.root,word);
     }
     
-    public boolean search(Node parent, String word){
-        //Base Case
+    private boolean search(Node parent, String word){
+         //BCase
         if(word.length() == 0){
             if(parent.isTerminal){
                 return true;
@@ -62,9 +62,10 @@ class Trie {
             }
         }
         
+        //Swork
         char cc = word.charAt(0);
         String ros = word.substring(1);
-        Node child = parent.map.get(cc);
+        Node child = parent.children.get(cc);
         if(child == null){
             return false;
         }
@@ -76,16 +77,16 @@ class Trie {
         return this.startsWith(this.root,prefix);
     }
     
-    public boolean startsWith(Node parent, String prefix) {
-        //Base-Case
+    private boolean startsWith(Node parent, String prefix){
+         //BCase
         if(prefix.length() == 0){
-            return true;
+           return true;
         }
         
-        //SW
+        //Swork
         char cc = prefix.charAt(0);
         String ros = prefix.substring(1);
-        Node child = parent.map.get(cc);
+        Node child = parent.children.get(cc);
         if(child == null){
             return false;
         }
