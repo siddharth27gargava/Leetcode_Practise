@@ -1,7 +1,10 @@
 class TrafficLight {
-    boolean isGreen;
+
+    private int roadAGreen = 1;
+    private final BlockingQueue<Integer> queue = new LinkedBlockingQueue<>();
+    private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
+
     public TrafficLight() {
-        this.isGreen = true;
     }
     
     public void carArrived(
@@ -11,19 +14,19 @@ class TrafficLight {
         Runnable turnGreen,  // Use turnGreen.run() to turn light to green on current road
         Runnable crossCar    // Use crossCar.run() to make car cross the intersection 
     ) {
-        synchronized(this){
-            if(roadId==1){
-               if(!this.isGreen){
-                   this.isGreen = true;
-                   turnGreen.run();
-               }
-            }else{
-               if(this.isGreen){
-                  this.isGreen = false;
-                  turnGreen.run();
-               }
-            }
-            crossCar.run();
+        queue.add(carId);
+        while(queue.peek() != carId) { 
+                
         }
+        while (roadAGreen != roadId){
+            rwLock.writeLock().lock();
+            // try to turn the light to green
+            roadAGreen=roadId;
+            turnGreen.run();
+            // after turn to green then run 
+            rwLock.writeLock().unlock();
+        } 
+        crossCar.run();
+        queue.poll();
     }
 }
