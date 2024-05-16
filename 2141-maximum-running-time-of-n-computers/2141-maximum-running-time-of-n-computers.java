@@ -1,6 +1,7 @@
 class Solution {
 
-    // This method is designed to find the maximum running time for 'n' computers using given batteries
+    // This method is designed to find the maximum running time for 'n' computers
+    // using given batteries
     public long maxRunTime(int n, int[] batteries) {
         long left = 0; // Initialize the lower bound of binary search
         long right = 0; // Initialize the upper bound of binary search
@@ -9,7 +10,7 @@ class Solution {
         for (int battery : batteries) {
             right += battery;
         }
-      
+
         // Use binary search to find the maximum running time
         while (left < right) {
             // Calculate the middle point, leaning towards the higher half
