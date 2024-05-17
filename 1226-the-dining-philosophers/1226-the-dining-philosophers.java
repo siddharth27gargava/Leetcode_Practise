@@ -1,5 +1,6 @@
 class DiningPhilosophers {
-    Semaphore s = new Semaphore(1);
+    private Lock leftForkLock = new ReentrantLock();
+    private Lock rightForkLock = new ReentrantLock();
 
     public DiningPhilosophers() {
         
@@ -13,12 +14,27 @@ class DiningPhilosophers {
                            Runnable putLeftFork,
                            Runnable putRightFork) throws InterruptedException {
         
-        s.acquire();
-        pickLeftFork.run();
-        pickRightFork.run();
-        eat.run();
-        putLeftFork.run();
-        putRightFork.run();
-        s.release();
+        while(true){
+            if(leftForkLock.tryLock(100, TimeUnit.MILLISECONDS)){
+                try{
+                    pickLeftFork.run();
+                    if(rightForkLock.tryLock(100, TimeUnit.MILLISECONDS)){
+                        try{
+                            pickRightFork.run();
+                            eat.run();
+                            putRightFork.run();
+                            return;
+                        } finally{
+                            rightForkLock.unlock();
+                        }
+                    }
+                }
+
+                finally{
+                    putLeftFork.run();
+                    leftForkLock.unlock();
+                }
+            }
+        }
     }
 }
